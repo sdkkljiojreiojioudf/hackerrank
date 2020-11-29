@@ -1,0 +1,9 @@
+
+g
+java:S2095>"LUse try-with-resources or close this "BufferedWriter" in a "finally" clause.(ð¢Å–þÿÿÿÿ
+t
+java:S22938"YReplace the type specification in this constructor call with the diamond operator ("<>").(Á˜Ýžûÿÿÿÿ
+<
+java:S1481@"&Remove this unused "n" local variable.(·Íå‹
+K
+java:S1854@"5Remove this useless assignment to local variable "n".(·Íå‹
