@@ -33,3 +33,7 @@ f
 .src/problem/solving/implementation/input06.txt,5\3\5377792a269c2ff73d1bd0f58cd951732d57811f
 n
 >src/problem/solving/implementation/ClimbingTheLeaderBoard.java,4\1\41bb10057bf5c5e9eafd7e1a3db361f6a8260f3c
+e
+5src/problem/solving/implementation/TheHurdleRace.java,3\6\366a160714af80feaa61c95e3792e32cc0749926
+i
+9src/problem/solving/implementation/DesignerPdfViewer.java,c\e\ce3d85aa03e454d2979a8cd500c949f60af562ed

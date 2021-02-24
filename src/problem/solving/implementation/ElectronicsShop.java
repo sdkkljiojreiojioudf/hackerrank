@@ -18,9 +18,6 @@ public class ElectronicsShop {
 
         int mostExpensive = -1;
 
-
-
-
         for (int i = 0, j= drivesList.length-1; i < keyboardsList.length; i++) {
             int keyboardPrice = keyboardsList[i];
             if (keyboardPrice <= b) {
