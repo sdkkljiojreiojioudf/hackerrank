@@ -1,22 +1,12 @@
 package problem.solving.implementation;
 import java.io.*;
-        import java.math.*;
-        import java.security.*;
-        import java.text.*;
-        import java.util.*;
-        import java.util.concurrent.*;
-        import java.util.regex.*;
+import java.util.*;
 
 public class SaveThePrisoner {
 
     // Complete the saveThePrisoner function below.
     static int saveThePrisoner(int n, int m, int s) {
-        /*for (int i = 0; i < m; i++) {
-
-
-            s++;
-        }*/
-       int result =  ((m+(s -1)) % n);
+        int result =  ((m+(s -1)) % n);
        return result == 0 ? n : result;
     }
 

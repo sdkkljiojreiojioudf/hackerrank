@@ -1,37 +1,28 @@
 package problem.solving.implementation;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
-import java.util.stream.Collectors;
 
 
 public class SalesByMatch {
     // Complete the sockMerchant function below.
-    static int sockMerchant(int n, int[] ar) {
+    static int sockMerchant(int[] ar) {
         HashMap<Integer, Integer> hashMap = new HashMap<>();
-        for (int i = 0; i < ar.length; i++) {
-            int elem = ar[i];
+        Arrays.stream(ar).forEach(elem -> {
             if (hashMap.containsKey(elem)) {
                 hashMap.put(elem, hashMap.get(elem) + 1);
             } else {
                 hashMap.put(elem, 1);
             }
-        }
-        int test = hashMap
+        });
+        return hashMap
                 .values()
                 .stream().map(e -> (e % 2 == 0 ? e : e - 1)/2)
                 .reduce(0, Integer::sum);
-        return test;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 
         int n = scanner.nextInt();
@@ -47,7 +38,6 @@ public class SalesByMatch {
             ar[i] = arItem;
         }
 
-        int result = sockMerchant(n, ar);
 
 
         scanner.close();

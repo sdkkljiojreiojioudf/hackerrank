@@ -53,7 +53,7 @@ public class MagicSquareForming {
             }
         }
 
-        int result = formingMagicSquare(s);
+        Integer result = formingMagicSquare(s);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();

@@ -1,17 +1,6 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
-import java.util.stream.*;
-
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 public class DayOfTheProgrammer {
     // Complete the dayOfProgrammer function below.
@@ -38,9 +27,7 @@ public class DayOfTheProgrammer {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 
-        int year = Integer.parseInt(bufferedReader.readLine().trim());
 
-        String result = dayOfProgrammer(year);
 
 
         bufferedReader.close();

@@ -4,32 +4,15 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DesignerPdfViewer {
 
     // Complete the designerPdfViewer function below.
     static int designerPdfViewer(int[] h, String word) {
         String letters = "abcdefghijklmnopqrstuvwxyz";
-
-        long t1, t2;
-        t1 = System.currentTimeMillis();
         int maxHeight = word.chars()
-                .parallel()
                 .map(e->h[letters.indexOf(e)])
                 .max().orElse(-1);
-        t2 = System.currentTimeMillis();
-        System.out.println(t2-t1);
-
-
-        t1 = System.currentTimeMillis();
-         maxHeight = word.chars()
-                .map(e->h[letters.indexOf(e)])
-                .max().orElse(-1);
-        t2 = System.currentTimeMillis();
-        System.out.println(t2-t1);
-
-
         return maxHeight * word.length();
     }
 

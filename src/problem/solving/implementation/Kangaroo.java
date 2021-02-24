@@ -1,12 +1,7 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 
 public class Kangaroo {
 
@@ -25,7 +20,7 @@ public class Kangaroo {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         String[] x1V1X2V2 = scanner.nextLine().split(" ");
 
@@ -37,7 +32,7 @@ public class Kangaroo {
 
         int v2 = Integer.parseInt(x1V1X2V2[3]);
 
-        String result = kangaroo(x1, v1, x2, v2);
+
 
 
         scanner.close();

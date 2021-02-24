@@ -1,13 +1,7 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.joining;
@@ -23,7 +17,7 @@ public class ClimbingTheLeaderBoard {
                 new LinkedHashSet<>(ranked)
         );
         int cpt = 0;
-        Integer playerScore = player.get(0);
+        Integer playerScore;
         for (int i = ranked.size()-1; i >= 0; i--) {
             int score = ranked.get(i);
             if(cpt==player.size()){
@@ -39,7 +33,7 @@ public class ClimbingTheLeaderBoard {
                 ranks.add(i+1);
                 i+=1;
                 cpt+=1;
-            }else if(i==0 && playerScore>score ){
+            }else if(i == 0){
                 i+=1;
                 ranks.add(1);
                 cpt+=1;
@@ -54,13 +48,11 @@ public class ClimbingTheLeaderBoard {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:\\dev\\projets_persos\\hackerrank\\src\\problem\\solving\\implementation\\input06.txt"))));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int rankedCount = Integer.parseInt(bufferedReader.readLine().trim());
 
         List<Integer> ranked = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)
                 .collect(toList());
 
-        int playerCount = Integer.parseInt(bufferedReader.readLine().trim());
 
         List<Integer> player = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)

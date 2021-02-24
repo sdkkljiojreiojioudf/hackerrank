@@ -1,19 +1,14 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 
 
 public class StrangeAdvertising {
 
     // Complete the viralAdvertising function below.
     static int viralAdvertising(int n) {
-        int shared = 5;
+        int shared;
         double liked = 2;
         int cumulative = 2;
         for (int i = 0; i < n-1; i++) {

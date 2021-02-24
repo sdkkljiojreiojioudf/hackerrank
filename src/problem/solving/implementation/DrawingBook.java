@@ -1,10 +1,7 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.text.*;
 import java.util.*;
-import java.util.regex.*;
 
 
 public class DrawingBook {
@@ -16,7 +13,7 @@ public class DrawingBook {
          * Write your code here.
          */
         int diffFromEnd = n - p;
-        int pageNb = 0;
+        int pageNb;
         if (diffFromEnd < p) {
             pageNb = (n - p);
             if (pageNb == 0) {
@@ -44,7 +41,7 @@ public class DrawingBook {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 
         int n = scanner.nextInt();
@@ -53,7 +50,7 @@ public class DrawingBook {
         int p = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])*");
 
-        int result = pageCount(n, p);
+
 
 
         scanner.close();

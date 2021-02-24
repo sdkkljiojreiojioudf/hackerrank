@@ -1,23 +1,16 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
 import java.util.stream.*;
 
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class TheDivision {
     // Complete the bonAppetit function below.
     static void bonAppetit(List<Integer> bill, int k, int b) {
         bill.remove(k);
-        Integer annaToPay = bill.stream()
+        int annaToPay = bill.stream()
                 .reduce(0, Integer::sum) / 2;
         if (b == annaToPay) System.out.println("Bon Appetit");
         else System.out.println(b-annaToPay);
@@ -28,7 +21,6 @@ public class TheDivision {
 
         String[] nk = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-        int n = Integer.parseInt(nk[0]);
 
         int k = Integer.parseInt(nk[1]);
 

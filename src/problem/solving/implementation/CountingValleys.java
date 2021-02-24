@@ -1,17 +1,6 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
-import java.util.stream.*;
-
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 
 public class CountingValleys {
@@ -24,12 +13,11 @@ public class CountingValleys {
      *  2. STRING path
      */
 
-    public static int countingValleys(int steps, String path) {
+    public static int countingValleys(String path) {
         // Write your code here
         int valleysNumber = 0;
         int seaLevel = 0;
         int level = 0;
-        int consecutivesSteps = 0;
         for (int i = 0; i < path.length(); i++) {
             char stepCod = path.charAt(i);
             if (stepCod == 'D') {
@@ -56,7 +44,7 @@ public class CountingValleys {
 
         String path = bufferedReader.readLine();
 
-        int result = CountingValleys.countingValleys(steps, path);
+        int result = CountingValleys.countingValleys(path);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();

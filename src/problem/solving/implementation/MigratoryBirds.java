@@ -1,19 +1,10 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
 import java.util.stream.*;
 
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-
-import java.io.IOException;
 
 public class MigratoryBirds {
 
@@ -42,7 +33,6 @@ public class MigratoryBirds {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 
-        int arrCount = Integer.parseInt(bufferedReader.readLine().trim());
 
         List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)

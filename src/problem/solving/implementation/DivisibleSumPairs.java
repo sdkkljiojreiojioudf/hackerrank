@@ -1,18 +1,11 @@
 package problem.solving.implementation;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
-import java.util.stream.Collectors;
 
 public class DivisibleSumPairs {
 
     // Complete the divisibleSumPairs function below.
-    static int divisibleSumPairs(int n, int k, int[] ar) {
+    static int divisibleSumPairs(int k, int[] ar) {
         int cpt = 0;
         for (int i = 0; i < ar.length; i++) {
             int elem = ar[i];
@@ -27,7 +20,7 @@ public class DivisibleSumPairs {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         String[] nk = scanner.nextLine().split(" ");
 
@@ -45,7 +38,7 @@ public class DivisibleSumPairs {
             ar[i] = arItem;
         }
 
-        int result = divisibleSumPairs(n, k, ar);
+        int result = divisibleSumPairs(k, ar);
         System.out.println(result);
 
         scanner.close();

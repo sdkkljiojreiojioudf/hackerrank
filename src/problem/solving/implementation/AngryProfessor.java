@@ -1,13 +1,7 @@
 package problem.solving.implementation;
 
-import java.util.Arrays;
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 
 public class AngryProfessor {
 
@@ -17,7 +11,7 @@ public class AngryProfessor {
 
     // Complete the angryProfessor function below.
     static String angryProfessor(int k, int[] a) {
-        return Arrays.stream(a).filter(e->isOnTime(e)).count()<k ? "YES" : "NO";
+        return Arrays.stream(a).filter(AngryProfessor::isOnTime).count()<k ? "YES" : "NO";
 
     }
 

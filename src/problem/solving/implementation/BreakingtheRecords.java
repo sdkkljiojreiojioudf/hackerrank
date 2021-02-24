@@ -1,12 +1,7 @@
 package problem.solving.implementation;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
 
 public class BreakingtheRecords {
 
@@ -31,7 +26,7 @@ public class BreakingtheRecords {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 
         int n = scanner.nextInt();
@@ -48,7 +43,7 @@ public class BreakingtheRecords {
         }
 
         int[] result = breakingRecords(scores);
-        System.out.println(result);
+        System.out.println(Arrays.toString(result));
 
 
         scanner.close();
