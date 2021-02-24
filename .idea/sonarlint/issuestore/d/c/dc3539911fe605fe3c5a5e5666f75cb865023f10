@@ -1,6 +1,0 @@
-
-m	java:S127"XRefactor the code in order to not assign to this loop counter from within the loop body.(‚ÔÅ›
-|
-java:S1192."aDefine a constant instead of duplicating this literal "(\r\n|[\n\r\u2028\u2029\u0085])*" 3 times.(Í§Ñ¦üÿÿÿÿ
-g
-java:S2095+"LUse try-with-resources or close this "BufferedWriter" in a "finally" clause.(ð¢Å–þÿÿÿÿ

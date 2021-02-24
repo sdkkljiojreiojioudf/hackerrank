@@ -1,7 +1,0 @@
-
-‰
-java:S1130/"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(œû¿Ø8Øõ×˜Ý.
-H
-java:S14818"+Remove this unused "result" local variable.(ŸÊ¦‘8Øõ×˜Ý.
-W
-java:S18548":Remove this useless assignment to local variable "result".(ŸÊ¦‘8Øõ×˜Ý.
