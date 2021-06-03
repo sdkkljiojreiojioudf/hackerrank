@@ -1,3 +1,3 @@
-The src file contains answers to small challenges on hackerrank in the algorithm part
+The src folder contains answers to small challenges on hackerrank
 
-Road to five stars :star: :star: :star: :star: :star:
+
