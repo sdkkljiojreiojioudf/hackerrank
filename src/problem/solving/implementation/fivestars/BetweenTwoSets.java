@@ -1,4 +1,4 @@
-package problem.solving.implementation;
+package problem.solving.implementation.fivestars;
 
 import java.io.*;
 import java.util.*;
