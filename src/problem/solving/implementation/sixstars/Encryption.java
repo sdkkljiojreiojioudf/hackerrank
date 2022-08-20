@@ -13,31 +13,39 @@ public class Encryption {
      */
 
     public static String encryption(String s) {
-
+        // Write your code here
         s = s.trim();
         double length_sqrt = Math.sqrt(s.length());
         Double lengthCeil = Math.ceil(length_sqrt);
         Double lengthFloor = Math.floor(length_sqrt);
 
-        String[][] stringArray2d = getStringArray2d(s, lengthCeil);
 
-        StringBuilder stringBuilder = getEncryptedString(lengthCeil, lengthFloor, stringArray2d);
+        String[][] strings = getStrings(s, lengthCeil, lengthFloor);
 
-
-        return stringBuilder.toString();
-
+        return getEncryptedString(lengthCeil, lengthFloor, strings);
     }
 
-    private static StringBuilder getEncryptedString(Double lengthCeil, Double lengthFloor, String[][] stringArray2d) {
-        StringBuilder stringBuilder = new StringBuilder("");
+    private static String[][] getStrings(String s, Double lengthCeil, Double lengthFloor) {
 
-        //for each columns
+        String[][] strings = new String[lengthFloor.intValue() + 1][lengthCeil.intValue()];
+        int cpt = 0;
         for (int i = 0; i < lengthCeil; i++) {
+            for (int j = 0; j < lengthCeil && cpt < s.length(); j++) {
+                strings[i][j] = s.substring(cpt, cpt + 1);
+                cpt++;
+            }
+        }
+        return strings;
+    }
 
-            //for each row, add the "i" column index to the encrypted string
+    private static String getEncryptedString(Double lengthCeil, Double lengthFloor, String[][] strings) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        //iterate each columns
+        for (int i = 0; i < lengthCeil; i++) {
+            //iterate over each rows
             for (int j = 0; j <= lengthFloor; j++) {
-
-                String s1 = stringArray2d[j][i];
+                String s1 = strings[j][i];
                 if (s1 == null) {
                     break;
                 }
@@ -46,19 +54,7 @@ public class Encryption {
             }
             stringBuilder.append(" ");
         }
-        return stringBuilder;
-    }
-
-    private static String[][] getStringArray2d(String s, Double lengthCeil) {
-        String[][] stringArray2d = new String[lengthCeil.intValue()][lengthCeil.intValue()];
-        int cpt = 0;
-        for (int i = 0; i < lengthCeil; i++) {
-            for (int j = 0; j < lengthCeil && cpt < s.length(); j++) {
-                stringArray2d[i][j] = s.substring(cpt, cpt + 1);
-                cpt++;
-            }
-        }
-        return stringArray2d;
+        return stringBuilder.toString();
     }
 
 
