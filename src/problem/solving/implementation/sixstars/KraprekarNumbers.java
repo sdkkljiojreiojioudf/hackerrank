@@ -23,7 +23,7 @@ class KaprekarNumbers {
 
         double limitForNextDigitNumber = getLimitForNextDigitNumber(digitNumber);
 
-        List<String> kaprekaNumbers = new ArrayList<>();
+        List<String> kaprekarNumbers = new ArrayList<>();
 
         //1: iterate from p (lower limitForNextDigitNumber) to q (upper limitForNextDigitNumber)
         for (int i = p; i <= q; i++) {
@@ -47,15 +47,15 @@ class KaprekarNumbers {
             // 3 : calculate the sum of the right and the left parts
             double sum = rightPart + leftPart;
             if(sum==i){
-                kaprekaNumbers.add(String.valueOf(i));
+                kaprekarNumbers.add(String.valueOf(i));
             }
 
         }
 
-        if(kaprekaNumbers.isEmpty()){
+        if(kaprekarNumbers.isEmpty()){
             System.out.println("INVALID RANGE");
         }else{
-            System.out.println(String.join(" ", kaprekaNumbers));
+            System.out.println(String.join(" ", kaprekarNumbers));
         }
     }
 
