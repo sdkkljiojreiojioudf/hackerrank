@@ -38,21 +38,21 @@ public class ClimbingTheLeaderBoard {
                 ranks.add(1);
                 cpt+=1;
             }
-
         }
-
         return ranks;
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:\\dev\\projets_persos\\hackerrank\\src\\problem\\solving\\implementation\\input06.txt"))));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
+        int rankedCount = Integer.parseInt(bufferedReader.readLine().trim());
 
         List<Integer> ranked = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)
                 .collect(toList());
 
+        int playerCount = Integer.parseInt(bufferedReader.readLine().trim());
 
         List<Integer> player = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                 .map(Integer::parseInt)
@@ -68,6 +68,5 @@ public class ClimbingTheLeaderBoard {
         );
 
         bufferedReader.close();
-        bufferedWriter.close();
-    }
+        bufferedWriter.close();    }
 }
