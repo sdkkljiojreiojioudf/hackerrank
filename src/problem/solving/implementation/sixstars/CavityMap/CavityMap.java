@@ -18,7 +18,7 @@ public class CavityMap {
     public static char[][] cavityMap(List<String> grid) {
 
         List<String> newGrid = grid.stream().collect(Collectors.toList());
-        char[][] newString = convertToCharArray(grid, newGrid);
+        char[][] newString = convertToCharArray(newGrid);
 
         int[][] matrice = convertToIntArray(grid);
 
@@ -52,8 +52,8 @@ public class CavityMap {
         return m;
     }
 
-    private static char[][] convertToCharArray(List<String> grid, List<String> newGrid) {
-        char[][] newString = new char[grid.size()][grid.get(0).length()];
+    private static char[][] convertToCharArray(List<String> newGrid) {
+        char[][] newString = new char[newGrid.size()][newGrid.get(0).length()];
         for (int i = 0; i < newGrid.size(); i++) {
             for (int j = 0; j < newGrid.get(i).length(); j++) {
                 newString[i][j] = newGrid.get(i).charAt(j);
