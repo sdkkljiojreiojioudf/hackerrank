@@ -1,13 +1,19 @@
 package problem.solving.implementation.sixstars;
 
-
-import java.awt.*;
 import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
 
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
-class ShortPalyndrome2 {
-
+public class ShortPalyndrome2 {
     /*
      * Complete the 'shortPalindrome' function below.
      *
@@ -15,87 +21,297 @@ class ShortPalyndrome2 {
      * The function accepts STRING s as parameter.
      */
 
-    public static final long M = 1000000007;
-    public static int[] stringAlphabetIndexStatic = new int[1000000];
 
-    public static int shortPalindrome(String s)
-    {
-        for (int i = 0; i < s.length(); i++) {
-            int charAsciiCode = s.charAt(i);
+    public static final int M = 1000000007;
+
+
+    static int countPS5(String str) {
+        int len = str.length();
+        int[][][][] c4 = new int[26][26][26][26];
+        int[][][] c3 = new int[26][26][26];
+        int[][] c2 = new int[26][26];
+        int[] c1 = new int[26];
+        for (int i = 0; i < len; i++) {
+            int c = str.charAt(i) - 122 + 25;
+            for (int j = 0; j < 26; j++) {
+                c4[c][j][j][c] = (c4[c][j][j][c] + c3[c][j][j]) % M;
+                c3[j][c][c] = (c3[j][c][c] + c2[j][c]) % M;
+                c2[j][c] = (c2[j][c] + c1[j]) % M;
+            }
+            c1[c] += 1;
+        }
+        int res = 0;
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 26; j++) {
+                for (int k = 0; k < 26; k++) {
+                    for (int l = 0; l < 26; l++) {
+                        res = (res + c4[i][j][k][l]) % M;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    static int countPS4(String str) {
+        int len = str.length();
+        List<Integer>[] charIndexLinkedList = new ArrayList[26];
+        for (int i = 0; i < 26; i++) {
+            charIndexLinkedList[i] = new ArrayList<>();
+        }
+
+
+        int[][] charCptRightToLeft = new int[1000000][26];
+        int[] charCpt = new int[26];
+        for (int i = 0; i < str.length(); i++) {
+            int charAsciiCode = str.charAt(i);
             int alphabetIndex = charAsciiCode - 122 + 25;
-            stringAlphabetIndexStatic[i] = alphabetIndex;
+            stringAlphabetIndex[i] = alphabetIndex;
+            charCpt[alphabetIndex]++;
+            charIndexLinkedList[alphabetIndex].add(i);
+        }
+        int[][] charCptLeftToRight = new int[1000000][26];
+
+
+        for (int i = 0; i < 26; i++) {
+            charCptLeftToRight[0][i] = charCpt[i];
+            charCptRightToLeft[len - 1][i] = charCpt[i];
         }
 
-        int n = s.length();
+        for (int i = 1; i < len; i++) {
+            System.arraycopy(charCptLeftToRight[i - 1], 0, charCptLeftToRight[i], 0, 26);
+            charCptLeftToRight[i][getAlphabetIndex(str, i)]--;
+        }
+        int alphabetIndex = getAlphabetIndex(str, 0);
+        charCptRightToLeft[0][alphabetIndex]++;
+        for (int i = 1; i < len; i++) {
+            System.arraycopy(charCptRightToLeft[i - 1], 0, charCptRightToLeft[i], 0, 26);
+            charCptRightToLeft[i][getAlphabetIndex(str, i)]++;
+        }
 
-        int[][] l = new int[26][1000000];
-
-        l[getAlphabetIndex(s, 0)][0]++;
-
-        // precompute the prefix 2D array
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < 26; j++) {
-                l[j][i] += l[j][i-1];
+        int[][] firstLastCharIndex = new int[26][2];
+        for (int i = 0; i < 26; i++) {
+            firstLastCharIndex[i][0] = -1;
+        }
+        for (int i = 0; i < len; i++) {
+            alphabetIndex = getAlphabetIndex(str, i);
+            if (firstLastCharIndex[alphabetIndex][0] == -1) {
+                firstLastCharIndex[alphabetIndex][0] = i;
+            } else {
+                firstLastCharIndex[alphabetIndex][1] = i;
             }
-            l[getAlphabetIndex(s, i)][i]++;
         }
 
-        int[][] r = new int[26][1000000];
-        r[getAlphabetIndex(s, n-1)][n-1]++;
-        //precompute the suffix 2D array
-        for (int i = n-2; i >= 0; i--) {
-            for (int j = 0; j < 26; j++) {
-                r[j][i] += r[j][i+1];
+        int cpt = 0;
+        for (int i = 0; i < 26; i++) {
+            List<Integer> charHistory = new ArrayList<>();
+            List<Integer>[] otherCharHistory = new ArrayList[26];
+            for (int j = 0; j < otherCharHistory.length; j++) {
+                otherCharHistory[j] = new ArrayList<>();
             }
-            r[getAlphabetIndex(s, i)][i]++;
+            List<Integer> charLinkedList = charIndexLinkedList[i];
+            int index = 0;
+            boolean deleteFirstOtherCharHistory = false;
+            while (index < charLinkedList.size()) {
+                int consecutiv = 1;
+                int elemIndex = charLinkedList.get(index);
+                for (int j = index + 1; j < charLinkedList.size(); j++) {
+                    int e = charLinkedList.get(j);
+                    if (e == (elemIndex + 1)) {
+                        elemIndex = e;
+                        index++;
+                        consecutiv++;
+                    } else {
+                        break;
+                    }
+                }
+                charHistory.add(consecutiv);
+                for (int j = 0; j < 26; j++) {
+                    if (j == i) {
+                        continue;
+                    }
+
+                    int valueCumulated = charCptRightToLeft[elemIndex][j];
+                    if (valueCumulated == 0) {
+                        continue;
+                    }
+                    int valueToSubstract = 0;
+                    if (otherCharHistory[j].size() > 0) {
+                        valueToSubstract = otherCharHistory[j].get(otherCharHistory[j].size() - 1);
+                    }
+                    int newValue = valueCumulated - valueToSubstract;
+                    if (deleteFirstOtherCharHistory == true) {
+//                        otherCharHistory[j].removeLast();
+                        deleteFirstOtherCharHistory = false;
+                    }
+                    if (charHistory.size() == 1) {
+                        deleteFirstOtherCharHistory = true;
+                    }
+
+
+                    otherCharHistory[j].add(24);
+                }
+                index++;
+            }
+            int show = 2;
+            int s1 = charHistory.size();
+            for (int j = 0; j < s1; j++) {
+                for (int k = j + 1; k < s1; k++) {
+                    cpt *= (j * k);
+                }
+            }
         }
 
-
-
-        return 2;
+        return cpt;
     }
 
+    static int countPS3(String str) {
+        List<Integer>[] charIndexLinkedList = new ArrayList[26];
+        for (int i = 0; i < 26; i++) {
+            charIndexLinkedList[i] = new ArrayList<>();
+        }
 
+        int len = str.length();
+        int[] charCpt = new int[26];
+        for (int i = 0; i < str.length(); i++) {
+            int charAsciiCode = str.charAt(i);
+            int alphabetIndex = charAsciiCode - 122 + 25;
+            stringAlphabetIndex[i] = alphabetIndex;
+            charCpt[alphabetIndex]++;
+            charIndexLinkedList[alphabetIndex].add(i);
+        }
 
-    private static Point getPoint(int left, int consecutiv) {
-        return new Point(
-                left,
-                consecutiv
-        );
+        int totalCpt = 3;
+        for (int i = 0; i < 26; i++) {
+            List<Integer> integers = charIndexLinkedList[i];
+            int intLen = integers.size();
+            int leftIndex = 0;
+            int cpt = 0;
+            for (int j = 0; j < intLen; j++) {
+                for (int k = j; k < intLen; k++) {
+                    int elem = integers.get(k);
+                }
+            }
+        }
+        return totalCpt;
     }
 
-    private static class Point {
-        private final int position;
-        private final int consecutiv;
-
-        public Point(int position, int consecutiv) {
-            this.position = position;
-            this.consecutiv = consecutiv;
+    static int countPS2(String str) {
+        List<Integer>[] charIndexLinkedList = new ArrayList[26];
+        for (int i = 0; i < 26; i++) {
+            charIndexLinkedList[i] = new ArrayList<>();
         }
 
-        public int getPosition() {
-            return position;
+        int len = str.length();
+        int[] charCpt = new int[26];
+        for (int i = 0; i < len; i++) {
+            int charAsciiCode = str.charAt(i);
+            int alphabetIndex = charAsciiCode - 122 + 25;
+            stringAlphabetIndex[i] = alphabetIndex;
+            charCpt[alphabetIndex]++;
+            charIndexLinkedList[alphabetIndex].add(i);
         }
 
-        public int getConsecutiv() {
-            return consecutiv;
+        int[][] charCptLeftToRight = new int[1000000][26];
+        int[][] charCptRightToLeft = new int[1000000][26];
+
+        for (int i = 0; i < 26; i++) {
+            charCptLeftToRight[0][i] = charCpt[i];
+            charCptRightToLeft[len - 1][i] = charCpt[i];
         }
+
+        for (int i = 1; i < 26; i++) {
+            System.arraycopy(charCptLeftToRight[i - 1], 0, charCptLeftToRight[i], 0, 26);
+            charCptLeftToRight[i][getAlphabetIndex(str, i)]--;
+        }
+        for (int i = len - 2; i >= 0; i--) {
+            System.arraycopy(charCptRightToLeft[i + 1], 0, charCptRightToLeft[i], 0, 26);
+            charCptRightToLeft[i][getAlphabetIndex(str, i)]--;
+        }
+
+        int totalCpt = 0;
+
+        int[][] firstLastCharIndex = new int[26][2];
+        for (int i = 0; i < 26; i++) {
+            firstLastCharIndex[i][0] = -1;
+        }
+        for (int i = 0; i < len; i++) {
+            int alphabetIndex = getAlphabetIndex(str, i);
+            if (firstLastCharIndex[alphabetIndex][0] == -1) {
+                firstLastCharIndex[alphabetIndex][0] = i;
+            } else {
+                firstLastCharIndex[alphabetIndex][1] = i;
+            }
+        }
+
+
+        for (int i = 0; i < len; i++) {
+            int alphabetIndex = getAlphabetIndex(str, i);
+            List<Integer> integers = charIndexLinkedList[alphabetIndex];
+            integers.remove(0);
+            int[] firstLast = firstLastCharIndex[alphabetIndex];
+            int first = firstLast[0];
+            int last = firstLast[1];
+            if (i >= first && i <= last) {
+                for (int j = 0, integersSize = integers.size(); j < integersSize; j++) {
+                    totalCpt += 1;
+
+                }
+
+
+//                int pivotPairsCombinaisons = 0;
+//                for (int j = 0; j < charCpt.length; j++) {
+//                    int charNb = charCpt[j];
+//                    if (charNb >= 2 && j != i) {
+//                        pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons + binomialCoeff2(charNb, 2)) % M);
+//                    }
+//                }
+//                pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(1, 1)) % M);
+//                pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(1, 1)) % M);
+//                totalCpt += (pivotPairsCombinaisons % M);
+//                totalCpt = (int) (totalCpt % M);
+            }
+        }
+
+
+        return totalCpt;
     }
+
 
     // Function return the total palindromic
     // subsequence
     static int countPS(String str) {
-        int[] charCpt = new int[26];
 
+        LinkedList<Integer>[] charIndexLinkedList = new LinkedList[26];
+        for (int i = 0; i < 26; i++) {
+            charIndexLinkedList[i] = new LinkedList<>();
+        }
+
+        int len = str.length();
+        int[] charCpt = new int[26];
         for (int i = 0; i < str.length(); i++) {
             int charAsciiCode = str.charAt(i);
             int alphabetIndex = charAsciiCode - 122 + 25;
-            stringAlphabetIndexStatic[i] = alphabetIndex;
+            stringAlphabetIndex[i] = alphabetIndex;
+            charCpt[alphabetIndex]++;
+            charIndexLinkedList[alphabetIndex].add(i);
         }
 
-        for (int i = 0; i < str.length(); i++) {
-            int alphabetIndex = getAlphabetIndex(str, i);
-            charCpt[alphabetIndex]++;
+        int[][] charCptLeftToRight = new int[1000000][26];
+        int[][] charCptRightToLeft = new int[1000000][26];
+
+        for (int i = 0; i < charCpt.length; i++) {
+            charCptLeftToRight[0][i] = charCpt[i];
+            charCptRightToLeft[str.length() - 1][i] = charCpt[i];
+        }
+
+        for (int i = 1; i < str.length(); i++) {
+            System.arraycopy(charCptLeftToRight[i - 1], 0, charCptLeftToRight[i], 0, 26);
+            charCptLeftToRight[i][getAlphabetIndex(str, i)]--;
+        }
+        for (int i = str.length() - 2; i >= 0; i--) {
+            System.arraycopy(charCptRightToLeft[i + 1], 0, charCptRightToLeft[i], 0, 26);
+            charCptRightToLeft[i][getAlphabetIndex(str, i)]--;
         }
 
 
@@ -117,7 +333,7 @@ class ShortPalyndrome2 {
         for (int i = 0; i < 26; i++) {
             int charNb = charCpt[i];
             if (charNb >= 4) {
-                totalCpt = (int) ((totalCpt + binomialCoeff3(charNb, 4)) % M);
+                totalCpt = (int) ((totalCpt + binomialCoeff2(charNb, 4)) % M);
             }
 
 
@@ -172,37 +388,17 @@ class ShortPalyndrome2 {
                 }
 
 
-//                    System.out.println("letter : " + i + " left : " + left +  " right: " + right + ", consecutiveLeft : " + consecutivLeft +" , consecutive Right " + consecutivRight);
+//                    System.out.println("letter : " + i + " left : " + left + ", consecutiveLeft : " + consecutivLeft + " right: " + right + " , consecutive Right " + consecutivRight);
 
                 int pivotPairsCombinaisons = 0;
-                int charNbToRight = 0;
-
                 for (int j = 0; j < charCptTmp.length; j++) {
                     charNb = charCptTmp[j];
-                    if (j == i) {
-                        int test = charCpt[i] - charCptTmp[i] + 1;
-                        charNbToRight = test;
-
-                    } else if (charNb >= 2) {
-                        pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons + binomialCoeff3(charNb, 2)) % M);
+                    if (charNb >= 2 && j != i) {
+                        pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons + binomialCoeff2(charNb, 2)) % M);
                     }
                 }
                 pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(consecutivLeft, 1)) % M);
                 pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(consecutivRight, 1)) % M);
-                totalCpt += (pivotPairsCombinaisons % M);
-                totalCpt = (int) (totalCpt % M);
-
-                pivotPairsCombinaisons = 0;
-                for (int j = 0; j < charCptTmp.length; j++) {
-                    charNb = charCpt[j] - charCptTmp[i];
-                    if (charNb >= 2 && i != j) {
-                        pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons + binomialCoeff3(charNb, 2)) % M);
-                    }
-                }
-                int charNbToLeft = charCpt[i] - consecutivLeft;
-                charNbToLeft = charNbToLeft - charNbToRight;
-                pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(charNbToRight, 1)) % M);
-                pivotPairsCombinaisons = (int) ((pivotPairsCombinaisons * Math.max(charNbToLeft, 1)) % M);
                 totalCpt += (pivotPairsCombinaisons % M);
                 totalCpt = (int) (totalCpt % M);
 
@@ -221,46 +417,36 @@ class ShortPalyndrome2 {
                 }
                 if ((right - left) < 3) {
 //                    System.out.println("there is here where we should FIND THE SECOND SERIE OF CONSECUTIV CHAR i FROM LEFT TO RIGHT");
-//                    charCptTmp = new int[26];
-//                    for (int j = 0; j < 26; j++) {
-//                        charCptTmp[j] = charCpt[j];
-//                    }
-//                    for (int j = 0; j <= left; j++) {
-//                        charCptTmp[getAlphabetIndex(str, j)]--;
-//                    }
-//                    right = str.length() - 1;
-//
-//                    left++;
-//                    consecutivLeft = 0;
-//                    leftCharIndex = getAlphabetIndex(str, left);
-//                    int previousLeftCharIndex = leftCharIndex;
-//                    while ((right - left) >= 2 && charCptTmp[i] > 0) {
-//                        if (leftCharIndex == i) {
-//                            consecutivLeft++;
-//                        }
-//                        if (leftCharIndex == i && getAlphabetIndex(str, left + 1) != i) {
-//                            break;
-//                        } else {
-//                            charCptTmp[leftCharIndex]--;
-//                            left++;
-//                            leftCharIndex = getAlphabetIndex(str, left);
-//                        }
-//                    }
+                    charCptTmp = new int[26];
+                    for (int j = 0; j < 26; j++) {
+                        charCptTmp[j] = charCpt[j];
+                    }
+                    for (int j = 0; j <= left; j++) {
+                        charCptTmp[getAlphabetIndex(str, j)]--;
+                    }
+                    right = str.length() - 1;
+
+                    left++;
+                    consecutivLeft = 0;
+                    leftCharIndex = getAlphabetIndex(str, left);
+                    while ((right - left) >= 2 && charCptTmp[i] > 0) {
+                        if (leftCharIndex == i) {
+                            consecutivLeft++;
+                        }
+                        if (leftCharIndex == i && getAlphabetIndex(str, left + 1) != i) {
+                            break;
+                        } else {
+                            charCptTmp[leftCharIndex]--;
+                            left++;
+                            leftCharIndex = getAlphabetIndex(str, left);
+                        }
+                    }
 
                 }
             }
         }
 
         return totalCpt;
-    }
-
-
-    public static String getKey(int left, int right) {
-        return new StringBuilder()
-                .append(left)
-                .append("-")
-                .append(right)
-                .toString();
     }
 
 
@@ -279,50 +465,8 @@ class ShortPalyndrome2 {
 
         long result = 1;
         result = getBinomialUpResult(n, k, result);
-        result = getBinomialDownResult2(k, result);
+        result = getBinomialDownResult(k, result);
         return (int) result;
-    }
-
-    private static int binomialCoeff3(int n, int k) {
-        long res = 1;
-
-        // Since C(n, k) = C(n, n-k)
-        if (k > n - k)
-            k = n - k;
-
-        // Calculate value of
-        // [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
-        for (int i = 0; i < k; ++i) {
-            res = getBinomialUpResult2(n, res, i);
-            res = getBinomialDownResult2(i + 1, res);
-        }
-
-        return (int) res;
-    }
-
-    private static long getBinomialUpResult2(int n, long res, int i) {
-        res = (res * (n - i)) % M;
-        return res;
-    }
-
-    private static long getBinomialDownResult2(int k, long result) {
-        int down = 1;
-        switch (k) {
-            case 1:
-                down = 1;
-                break;
-            case 2:
-                down = 500000004;
-                break;
-            case 3:
-                down = 333333336;
-                break;
-            case 4:
-                down = 250000002;
-                break;
-        }
-        result = (result * down) % M;
-        return result;
     }
 
 
@@ -344,13 +488,12 @@ class ShortPalyndrome2 {
             }
             result = (result * modInverseResult) % M;
         }
-
         return result;
     }
 
 
     private static int getAlphabetIndex(String str, int i) {
-        return stringAlphabetIndexStatic[i];
+        return stringAlphabetIndex[i];
     }
 
 
@@ -392,13 +535,17 @@ class ShortPalyndrome2 {
     }
 
 
+}
+
+
+class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getenv("INPUT_PATH")));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
         String s = bufferedReader.readLine();
 
-        int result = ShortPalyndrome2.shortPalindrome(s);
+        int result = ShortPalyndrome2.countPS5(s);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();

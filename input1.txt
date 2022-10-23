@@ -15,6 +15,9 @@ bbbabba => 6
 (6,1) ou (6,5)
 
 
+aabbaabbaabbaa
+
+
 
 ghhggh => 4
 (4,1) ou (4,3)
